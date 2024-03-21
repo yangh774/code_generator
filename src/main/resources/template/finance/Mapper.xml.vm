@@ -9,7 +9,6 @@
 #end
     </resultMap>
 
-    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
     #foreach($column in $columns)
         ${column.columnName},
@@ -20,14 +19,14 @@
         select SEQ_${tableName}.nextval from dual
     </select>
 
-    <select id="selectList" resultMap="${classname}Map">
+    <select id="getPage" resultMap="${classname}Map">
         select <include refid="Base_Column_List"/>
         from ${tableName}
     </select>
 
-    <update id="batchDelete">
+    <update id="batchHidden">
         update ${tableName}
-        set DELETE_TAG = #{deleteTag}, DELETE_TIME = #{deleteTime}
+        set is_delete = 1
         <where>
             id in
             <foreach collection="list" index="index" item="item" open="(" close=")" separator=",">

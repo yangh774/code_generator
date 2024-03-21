@@ -10,8 +10,7 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
-public class Query${className}Dto extends PageMsg implements Serializable {
-private static final long serialVersionUID = 1L;
+public class ${className}Dto implements Serializable {
 
     @ApiModelProperty(value = "查询条件样例id")
     private Long id;

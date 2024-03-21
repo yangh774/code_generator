@@ -11,7 +11,6 @@ import java.util.Map;
 
 /**
  * ${comments}
- * 
  * @author ${author}
  * @date ${datetime}
  */
@@ -20,7 +19,7 @@ public interface ${className}Mapper extends BaseMapper<${className}> {
 
     Long getNextId();
 
-    List<${className}> selectList(Map map);
+    List<${className}> getPage(${className} ${classname});
 
-    int batchDelete(@Param("list") List<Long> list, @Param("deleteTag") Integer deleteTag, @Param("deleteTime") Date deleteTime);
+    int batchHidden(@Param("list") List<Long> list);
 }

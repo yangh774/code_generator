@@ -13,40 +13,14 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface I${className}Service extends IService<${className}> {
+public interface ${className}Service extends IService<${className}> {
 
-    /**
-    * 分页查询
-    * @param dto
-    * @return
-    */
-    PageInfo<${className}> getPage( Query${className}Dto dto);
 
-    /**
-    * 列表查询
-    * @param dto
-    * @return
-    */
-    List<${className}> getList( Query${className}Dto dto );
+    PageInfo<${className}> getPage(${className} ${classname});
 
-    /**
-    * 新增数据
-    * @return
-    */
-    boolean save(${className} ${classname});
+    Boolean saveOrUpdate(${className} ${classname});
 
-    /**
-   * 新增数据
-   * @return
-   */
-    boolean updateById(${className} ${classname});
-
-    /**
-     * 批量逻辑删除
-     * @param ids
-     * @return
-     */
-    Boolean delete(String ids);
+    Boolean hiddenByIds(String ids);
 
 }
 

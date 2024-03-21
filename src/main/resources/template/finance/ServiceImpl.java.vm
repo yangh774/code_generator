@@ -17,50 +17,39 @@ import javax.transaction.Transactional;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.model.${className};
 import ${package}.${moduleName}.model.dto.Query${className}Dto;
-import ${package}.${moduleName}.service.I${className}Service;
+import ${package}.${moduleName}.service.${className}Service;
 
 @AllArgsConstructor
 @Service("${classname}Service")
-public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements I${className}Service {
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
 
 
     @Override
-    public PageInfo<${className}> getPage( Query${className}Dto dto){
-        Map<String, Object> map = BeanUtil.beanToMap(dto);
-        PageHelper.startPage(dto.getPageNumber(), dto.getPageSize());
-        List<${className}> list = baseMapper.selectList(map);
+    public PageInfo<${className}> getPage(${className} ${classname}){
+        PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        List<${className}> list = baseMapper.getPage(${classname});
         PageInfo<${className}> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 
     @Override
-    public List<${className}> getList(Query${className}Dto dto){
-        Map<String, Object> map = BeanUtil.beanToMap(dto);
-        List<${className}> list = baseMapper.selectList(map);
-        return list;
-    }
-
-    @Override
     @Transactional
-    public boolean save(${className} ${classname}){
-        Long id = baseMapper.getNextId();
-        // todo 设置id，创建时间，创建人
-        int result = baseMapper.insert(${classname});
-        return result>0?true:false;
+    public boolean saveOrUpdate(${className} ${classname}){
+        Long newId = baseMapper.getNextId();
+        Long id = ${classname}.getId();
+        if (id!=null){
+            ${classname}.setUpdateTime(new Date());
+            return this.updateById(${classname});
+        } else {
+            ${classname}.setCreateTime(new Date());
+            return this.save(${classname});
+        }
     }
 
     @Override
-    @Transactional
-    public boolean updateById(${className} ${classname}){
-        // todo 设置修改时间
-        int result = baseMapper.updateById(${classname});
-        return result>0?true:false;
-    }
-
-    @Override
-    public Boolean delete(String ids){
+    public Boolean hiddenByIds(String ids){
         List<Long> idList = ListUtil.toLongList(ids,",");
-        int result = baseMapper.batchDelete(idList, Constants.DELETE_FLAG_YES,new Date());
+        int result = baseMapper.batchDelete(idList;
         return result>0?true:false;
     }
 }
