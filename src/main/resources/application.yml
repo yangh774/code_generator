@@ -1,0 +1,59 @@
+server:
+  port: 8880
+
+# mysql
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://8.138.84.90:3306/zf-data?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: yh123
+    #oracle配置
+    #    driverClassName: oracle.jdbc.OracleDriver
+    #    url: jdbc:oracle:thin:@172.22.19.3:1521:orcl
+    #    username: root
+    #    password: yh123
+    #SQLServer配置
+    #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=renren_fast
+    #    username: sa
+    #    password: 123456
+    #PostgreSQL配置
+  #    driverClassName: org.postgresql.Driver
+  #    url: jdbc:postgresql://192.168.10.10:5432/renren_fast
+  #    username: postgres
+  #    password: 123456
+
+
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+
+#mongodb:
+#  host: localhost
+#  port: 27017
+#  auth: false #是否使用密码验证
+#  username: tincery
+#  password: renren
+#  source: 123456
+#  database: test
+
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+
+
+pagehelper:
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+#指定数据库，可选值有【mysql、oracle、sqlserver、postgresql、mongodb】
+renren:
+  database: mysql
+

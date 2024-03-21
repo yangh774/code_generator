@@ -1,0 +1,52 @@
+package ${package}.${moduleName}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
+import ${package}.${moduleName}.model.${className};
+import ${package}.${moduleName}.model.dto. Query${className}Dto;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends IService<${className}> {
+
+    /**
+    * 分页查询
+    * @param dto
+    * @return
+    */
+    PageInfo<${className}> getPage( Query${className}Dto dto);
+
+    /**
+    * 列表查询
+    * @param dto
+    * @return
+    */
+    List<${className}> getList( Query${className}Dto dto );
+
+    /**
+    * 新增数据
+    * @return
+    */
+    boolean save(${className} ${classname});
+
+    /**
+   * 新增数据
+   * @return
+   */
+    boolean updateById(${className} ${classname});
+
+    /**
+     * 批量逻辑删除
+     * @param ids
+     * @return
+     */
+    Boolean delete(String ids);
+
+}
+

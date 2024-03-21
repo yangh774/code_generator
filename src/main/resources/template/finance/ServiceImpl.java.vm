@@ -1,0 +1,66 @@
+package ${package}.${moduleName}.service.impl;
+
+import cn.com.gxetc.micro.devtools.conston.Constants;
+import cn.com.gxetc.micro.devtools.util.ListUtil;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
+import javax.transaction.Transactional;
+
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.model.${className};
+import ${package}.${moduleName}.model.dto.Query${className}Dto;
+import ${package}.${moduleName}.service.I${className}Service;
+
+@AllArgsConstructor
+@Service("${classname}Service")
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements I${className}Service {
+
+
+    @Override
+    public PageInfo<${className}> getPage( Query${className}Dto dto){
+        Map<String, Object> map = BeanUtil.beanToMap(dto);
+        PageHelper.startPage(dto.getPageNumber(), dto.getPageSize());
+        List<${className}> list = baseMapper.selectList(map);
+        PageInfo<${className}> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public List<${className}> getList(Query${className}Dto dto){
+        Map<String, Object> map = BeanUtil.beanToMap(dto);
+        List<${className}> list = baseMapper.selectList(map);
+        return list;
+    }
+
+    @Override
+    @Transactional
+    public boolean save(${className} ${classname}){
+        Long id = baseMapper.getNextId();
+        // todo 设置id，创建时间，创建人
+        int result = baseMapper.insert(${classname});
+        return result>0?true:false;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateById(${className} ${classname}){
+        // todo 设置修改时间
+        int result = baseMapper.updateById(${classname});
+        return result>0?true:false;
+    }
+
+    @Override
+    public Boolean delete(String ids){
+        List<Long> idList = ListUtil.toLongList(ids,",");
+        int result = baseMapper.batchDelete(idList, Constants.DELETE_FLAG_YES,new Date());
+        return result>0?true:false;
+    }
+}

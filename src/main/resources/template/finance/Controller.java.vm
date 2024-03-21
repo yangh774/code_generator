@@ -1,0 +1,143 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.github.pagehelper.PageInfo;
+
+
+import ${package}.${moduleName}.model.${className};
+import ${package}.${moduleName}.model.dto.Query${className}Dto;
+import ${package}.${moduleName}.service.I${className}Service;
+import ${mainPath}.${moduleName}.util.R;
+import ${mainPath}.common.log.annotation.Logable;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Api(value = "${comments}Controller",tags = "${comments}接口")
+@RestController
+@RequestMapping("/${pathName}")
+public class ${className}Controller {
+    @Autowired
+    private I${className}Service ${classname}Service;
+
+    /**
+    * 分页查询
+    */
+    @ApiOperation(value ="分页查询", notes = "分页查询")
+    @GetMapping("/getPage")
+    @RequiresPermissions("${pathName}:getPage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "query${className}Dto", value = "查询条件对象", required = true, dataType = "Query${className}Dto", paramType = "query")
+    })
+    public R getPage(Query${className}Dto query${className}Dto){
+        PageInfo<${className}> page = ${classname}Service.getPage(query${className}Dto);
+        return R.page(page);
+    }
+
+    /**
+     * 列表(不分页)
+     */
+    @ApiOperation(value ="查询列表", notes = "查询列表")
+    @Logable
+    @GetMapping("/getList")
+    @RequiresPermissions("${pathName}:getList")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "query${className}Dto", value = "查询条件对象", required = true, dataType = "Query${className}Dto", paramType = "query")
+    })
+    public R getList(Query${className}Dto query${className}Dto){
+        List<${className}> list = ${classname}Service.getList(query${className}Dto);
+        return R.ok(list);
+    }
+
+
+    /**
+     * 详细信息
+     */
+    @ApiOperation(value ="查询详细信息", notes = "查询详细信息")
+    @Logable
+    @GetMapping("/detail/{${pk.attrname}}")
+    @RequiresPermissions("${pathName}:detail")
+    public R detail(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+		${className} ${classname} = ${classname}Service.getById(${pk.attrname});
+        return R.ok(${classname});
+    }
+
+    /**
+     * 保存
+     */
+    @ApiOperation(value ="新增${comments}", notes = "新增${comments}")
+    @Logable("新增${comments}")
+    @PostMapping("/save")
+    @RequiresPermissions("${pathName}:save")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${classname}", value = "保存对象", required = true, dataType = "${className}", paramType = "query")
+    })
+    public R save(@Validated(Insert.class)@RequestBody ${className} ${classname}, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return R.fail(bindingResult.getFieldError().getDefaultMessage());
+        }
+		Boolean flag = ${classname}Service.save(${classname});
+        if(flag){
+            return R.ok();
+        }else{
+            return R.fail("新增${comments}失败");
+        }
+    }
+
+    /**
+     * 修改
+     */
+    @ApiOperation(value ="修改${comments}", notes = "修改${comments}")
+    @Logable("修改${comments}")
+    @PutMapping("/update")
+    @RequiresPermissions("${pathName}:update")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "${classname}", value = "修改对象", required = true, dataType = "${className}", paramType = "query")
+    })
+    public R update(@Validated(Update.class)@RequestBody ${className} ${classname}, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return R.fail(bindingResult.getFieldError().getDefaultMessage());
+        }
+        Boolean flag = ${classname}Service.updateById(${classname});
+        if(flag){
+            return R.ok();
+        }else{
+            return R.fail("修改${comments}失败");
+        }
+    }
+
+    /**
+     * 删除
+     */
+    @ApiOperation(value ="删除${comments}", notes = "删除${comments}")
+    @Logable("删除${comments}")
+    @DeleteMapping("/delete/{${pk.attrname}s}")
+    @RequiresPermissions("${pathName}:delete")
+    public R delete(@PathVariable String ${pk.attrname}s){
+        Boolean flag = ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s.split(",")));
+        if(flag){
+            return R.ok();
+        }else{
+            return R.fail("删除${comments}失败");
+        }
+    }
+
+}

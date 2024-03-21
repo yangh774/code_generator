@@ -1,0 +1,26 @@
+package ${package}.${moduleName}.mapper;
+
+import ${package}.${moduleName}.model.${className};
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Mapper extends BaseMapper<${className}> {
+
+    Long getNextId();
+
+    List<${className}> selectList(Map map);
+
+    int batchDelete(@Param("list") List<Long> list, @Param("deleteTag") Integer deleteTag, @Param("deleteTime") Date deleteTime);
+}
