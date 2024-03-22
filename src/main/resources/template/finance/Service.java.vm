@@ -2,8 +2,6 @@ package ${package}.${moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import ${package}.${moduleName}.model.${className};
-import ${package}.${moduleName}.model.dto. Query${className}Dto;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface ${className}Service extends IService<${className}> {
 
     PageInfo<${className}> getPage(${className} ${classname});
 
-    Boolean saveOrUpdate(${className} ${classname});
+    Boolean saveOrUpdateModel(${className} ${classname});
 
     Boolean hiddenByIds(String ids);
 

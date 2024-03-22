@@ -3,25 +3,33 @@
 
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-    <resultMap type="${package}.${moduleName}.model.${className}" id="${classname}Map">
+    <resultMap type="${package}.domain.entity.${moduleName}.${className}" id="baseResultMap">
 #foreach($column in $columns)
         <result property="${column.attrname}" column="${column.columnName}"/>
 #end
     </resultMap>
 
     <sql id="Base_Column_List">
-    #foreach($column in $columns)
-        ${column.columnName},
-    #end
+#foreach($column in $columns)
+        ${column.columnName}#if($foreach.hasNext),#end
+#end
     </sql>
 
     <select id="getNextId" resultType="java.lang.Long">
         select SEQ_${tableName}.nextval from dual
     </select>
 
-    <select id="getPage" resultMap="${classname}Map">
-        select <include refid="Base_Column_List"/>
+    <select id="getPage" parameterType="${package}.domain.entity.${moduleName}.${className}" resultMap="baseResultMap">
+        select
+        <include refid="Base_Column_List"/>
         from ${tableName}
+        <where>
+#foreach($column in $columns)
+            <if test="$column.attrname != null">
+                and ${column.columnName} = #{$column.attrname}
+            </if>
+#end
+        </where>
     </select>
 
     <update id="batchHidden">

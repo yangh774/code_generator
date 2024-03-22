@@ -1,8 +1,5 @@
 package ${package}.${moduleName}.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.yh.web.BaseController;
 import com.yh.web.entity.AjaxResult;
 import com.yh.web.entity.R;
@@ -12,9 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
-import ${package}.${moduleName}.model.${className};
 import ${package}.${moduleName}.service.${className}Service;
 
 
@@ -49,13 +43,14 @@ public class ${className}Controller extends BaseController{
 
     @PostMapping("/saveOrUpdate")
     public AjaxResult save(@Validated @RequestBody ${className} ${classname}) {
-		Boolean result = ${classname}Service.saveOrUpdate(${classname});
+		Boolean result = ${classname}Service.saveOrUpdateModel(${classname});
         return toAjax(result);
     }
 
     @DeleteMapping("/delete/{${pk.attrname}s}")
     public AjaxResult delete(@PathVariable String ${pk.attrname}s){
-        Boolean result = ${classname}Service.hiddenByIds(Arrays.asList(${pk.attrname}s.split(",")));
+        if (Objects.isNull(ids)) return AjaxResult.error("参数缺失");
+        Boolean result = ${classname}Service.hiddenByIds(${pk.attrname}s);
         return toAjax(result);
     }
 

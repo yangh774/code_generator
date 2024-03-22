@@ -1,9 +1,6 @@
 package ${package}.${moduleName}.service.impl;
 
-import cn.com.gxetc.micro.devtools.conston.Constants;
-import cn.com.gxetc.micro.devtools.util.ListUtil;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,21 +9,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import ${package}.${moduleName}.mapper.${className}Mapper;
-import ${package}.${moduleName}.model.${className};
-import ${package}.${moduleName}.model.dto.Query${className}Dto;
 import ${package}.${moduleName}.service.${className}Service;
 
 @AllArgsConstructor
-@Service("${classname}Service")
+@Service
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
 
 
     @Override
     public PageInfo<${className}> getPage(${className} ${classname}){
-        PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
+        PageHelper.startPage(${classname}.getPageNum(), ${classname}.getPageSize());
         List<${className}> list = baseMapper.getPage(${classname});
         PageInfo<${className}> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -34,13 +28,14 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
 
     @Override
     @Transactional
-    public boolean saveOrUpdate(${className} ${classname}){
-        Long newId = baseMapper.getNextId();
+    public Boolean saveOrUpdateModel(${className} ${classname}){
         Long id = ${classname}.getId();
         if (id!=null){
             ${classname}.setUpdateTime(new Date());
             return this.updateById(${classname});
         } else {
+            Long newId = baseMapper.getNextId();
+            ${classname}.setId(newId);
             ${classname}.setCreateTime(new Date());
             return this.save(${classname});
         }
@@ -48,8 +43,8 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
 
     @Override
     public Boolean hiddenByIds(String ids){
-        List<Long> idList = ListUtil.toLongList(ids,",");
-        int result = baseMapper.batchDelete(idList;
+        List<Long> idList = Arrays.asList(ids.split(",")).stream().map(it -> Long.parseLong(it)).collect(Collectors.toList());
+        int result = baseMapper.batchHidden(idList);
         return result>0?true:false;
     }
 }
